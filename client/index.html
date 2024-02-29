@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathalino Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="../assets/math-logo.jpg">
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div id="logo">
+                <h1>Math<span>alino</span></h1>
+            </div>
+            <ul>
+                <li><a id="active" href="#">home</a></li>
+                <li><a href="#">quiz</a></li>
+                <li><a href="#">documents</a></li>
+                <li><a href="#">faq</a></li>
+            </ul>
+            <ul>
+                <li><a id="get-started" href="#">get started</a></li>
+                <img src="../assets/news-report.png" alt="">
+            </ul>
+        </nav>
+    </header>
+    <section>
+        <div class="landing-page">
+            <div class="text-lg-sm">
+                <h1>Elevate Your <span>Math Skills</span> with Our Dynamic Online Quiz</h1>
+                <p>Experience math like never before--our quick quiz adapts to you, making learning engaging and
+                    effective. Start now</p>
+            </div>
+            <div class="login-option">
+                <div id="guest"><img src="../assets/profile.png" alt=""><a href="#">Guest Account</a></div>
+                <div id="google"><img src="../assets/google.png" alt=""> <a href="#">Sign in with Google</a></div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="features-carousel">
+            <div class="invisible-card">
+                <div id="text-close">
+                    <h4>Mathalino</h4>
+                    <h1><span>Features</span></h1>
+                </div>
+                <p>Unleash the Power of Our Math Quiz Platform</p>
+                <a href="#">Explore Now</a>
+            </div>
+            <div class="visible-card">
+                <div class="card">
+                    <div id="icon">.</div>
+                </div>
+                <div class="card">
+                    <div id="icon">.</div>
+                </div>
+                <div class="card">
+                    <div id="icon">.</div>
+                </div>
+                <div class="card">
+                    <div id="icon">.</div>
+                </div>
+                <div class="card">
+                    <div id="icon">.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <main class="middle-guest-form">
+            <div class="form">
+                <input id="first-name" type="text" placeholder="First name">
+                <input id="last-name" type="text" placeholder="Last name">
+                <button id="done">Done</button>
+            </div>    
+        </main>
+            <div class="dashboard">
+                <h1 id="user">loading...</h1>
+                <p id="title">loading...</p>
+                <input id="text-box" type="text" placeholder="write something">
+                <button id="save">save</button>
+                <button id="log-out">Log Out</button>
+            </div>
+    </section>
+    
+
+    <script src="./main.js"></script>
+    <script src="./quiz.js"></script>
+    <script type="module" src="../server/firebase.js"></script>
+</body>
+
+</html>

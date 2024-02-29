@@ -1,0 +1,282 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #272727;
+    background: #f1f1f1;
+}
+
+span{
+    color: rgb(213, 40, 213);
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: .8rem;
+        background: #fff;
+
+        #logo{
+            color: rgb(213, 40, 213);
+            span{
+                color: #272727;
+            }
+            font-size: clamp(.8rem, 1vw, 1rem);
+        }
+
+        ul {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+
+            li {
+                list-style: none;
+
+                a {
+                    text-decoration: none;
+                    color: rgba($color: #464646, $alpha: .4);
+                    text-transform: capitalize;
+                    font-weight: bold;
+                    font-size: clamp(.8rem, 1vw, 1rem);
+                }
+
+                #active{
+                    color: #272727;
+                }
+
+                i{
+                    padding: .7rem 1.4rem;
+                    background: #ccc;
+                    border-radius: 10rem;
+                }
+
+                #get-started{
+                    color: rgb(213, 40, 213);
+                    border: 1px solid rgb(213, 40, 213);
+                    padding: .4rem 1rem;
+                    border-radius: 3rem;
+                    font-size: clamp(.8rem, 1vw, 1rem);
+                }
+            }
+        }
+    }
+}
+
+
+section{
+    .landing-page{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem;
+        background: rgba($color: #d7a6d7, $alpha: .2);
+        
+        &::before {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("../assets/pexels-black-ice-1314544.jpg") no-repeat; 
+            background-size: cover;
+            z-index: -999;
+            opacity: .2;
+           
+        }
+
+        .text-lg-sm{
+            text-align: center;
+            max-width: 35rem;
+            margin-top: 2rem;
+
+            h1{
+                font-size: clamp(1.5rem, 3vw, 4rem);
+            }
+
+            p{
+                margin-top: 1rem;
+                font-size: clamp(.8rem, 1.2vw, 2rem);
+            }
+        }
+
+        .login-option{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            #guest, #google{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid rgba($color: #fff, $alpha: 1);
+                margin: 0 .250rem;
+                padding: .4rem 1rem;
+                border-radius: 2rem;
+                gap: 1.2rem;
+                transition: all .3s ease-in-out;
+                cursor: pointer;
+
+                &:hover{
+                    border: 1px solid rgba($color: #464646, $alpha: .4);
+                }
+            }
+
+            img{
+                height: 1.5rem;
+            }
+
+            a{
+                color: #fff;
+                text-decoration: none;
+            }
+        }
+    }
+
+
+    .features-carousel {
+        display: flex;
+        margin-top: 2rem;
+        justify-content: center; /* Use space-between to push cards to the edges */
+       /* Add padding to create space on the edges */
+    
+        .invisible-card {
+            max-width: 15rem;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 0 5rem; /* Adjust margin to create space between cards */
+    
+            a {
+                color: #fff;
+                background: rgb(213, 40, 213);
+                text-decoration: none;
+                padding: .4rem 1.2rem;
+                border-radius: 2rem;
+                text-align: center;
+            }
+        }
+    
+        .visible-card {
+            overflow-x: scroll;
+            width: min(100%, 70rem);
+            display: flex;
+            gap: 1.5rem;
+    
+            .card {
+                padding: 7rem;
+                background: rgb(220, 220, 220);
+                border-radius: 1.2rem;
+            }    
+            
+            &::-webkit-scrollbar {
+                width: 0px;
+            }
+
+         
+        }
+    }
+    
+
+
+
+
+    .middle-guest-form{
+        position: fixed;
+        top: 0;
+        right: 100%;
+        background: rgba($color: #ef22e5, $alpha: .4);
+        backdrop-filter: blur(.3rem);
+        height: 100vh;
+        width: 100%;
+        z-index: 999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all ease-in-out .4s;
+
+        .form{
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+
+            input{
+                padding: 1rem 4rem 1rem .7rem;
+                border: none;
+                outline: 1px solid #ef22e5;
+            }
+
+            button{
+                padding: 1rem;
+                border: none;
+                background: rgb(213, 40, 213);
+                color: #fff;
+            }
+
+        }
+    }
+
+    
+.dashboard{
+    position: fixed;
+    top: 0;
+    right: 100%;
+    height: 100vh;
+    width: 100%;
+    background: rgb(255, 255, 255);
+    z-index: 999;
+    padding: 1rem;
+    font-size: 2rem;
+    transition: all ease-in-out .4s;
+}
+
+}
+
+
+
+@media screen and (max-width: 700px) {
+   
+    section{
+        .features-carousel {
+            flex-direction: column;
+            padding-left: 3rem;
+            gap: 2rem;
+         
+             .invisible-card {
+                margin: 0;
+               
+         
+                 a {
+                    
+                 }
+             }
+         
+             .visible-card {
+               
+         
+                 .card {
+                     
+                 }
+             }
+         }
+    }
+
+}
+
+
+
+
