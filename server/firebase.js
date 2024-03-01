@@ -57,7 +57,8 @@ const dashboard = document.querySelector('.dashboard');
 // Setup user dashboard
 function setupDashboard(user) {
     dashboard.style.right = '0';
-    document.getElementById('user').textContent = `Welcome, ${user.displayName}`;
+  
+    document.getElementById('user').textContent = `Sign in as ${user.displayName}`;
   
     const titleRef = ref(database, `users/${user.uid}/title`);
     const textBox = document.getElementById('text-box');
@@ -93,6 +94,7 @@ function updateTitleAndTextBox(data, uid) {
     if (titleText) {
       title.textContent = titleText;
       textBox.value = titleText;
+      textBox.value = '';
     } else {
       setDefaultValues();
     }
@@ -102,7 +104,7 @@ function updateTitleAndTextBox(data, uid) {
     const title = document.getElementById('title');
   
     title.textContent = 'No Existing Data from Firebase';
-    // textBox.value = '';
+    textBox.value = '';
   }
   
   // Show the user dashboard

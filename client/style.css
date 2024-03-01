@@ -36,10 +36,12 @@ header nav #logo span {
 header nav ul {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.8rem;
 }
 header nav ul li {
   list-style: none;
+  display: flex;
+  align-items: center;
 }
 header nav ul li a {
   text-decoration: none;
@@ -51,17 +53,37 @@ header nav ul li a {
 header nav ul li #active {
   color: #272727;
 }
-header nav ul li i {
-  padding: 0.7rem 1.4rem;
-  background: #ccc;
-  border-radius: 10rem;
-}
 header nav ul li #get-started {
   color: rgb(213, 40, 213);
   border: 1px solid rgb(213, 40, 213);
-  padding: 0.4rem 1rem;
+  padding: 0.3rem 1rem;
   border-radius: 3rem;
   font-size: clamp(0.8rem, 1vw, 1rem);
+}
+header nav ul li img {
+  height: 1.7rem;
+  position: relative;
+}
+header nav ul li:nth-child(2) {
+  position: relative;
+}
+header nav ul li:nth-child(2)::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: "1";
+  height: 0.3rem;
+  width: 0.3rem;
+  padding: 0.2rem;
+  border-radius: 1rem;
+  border: 2px solid #fff;
+  background: #ef22e5;
+  color: #fff;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6rem;
 }
 
 section .landing-page {
@@ -103,7 +125,8 @@ section .landing-page .login-option {
   justify-content: center;
   align-items: center;
 }
-section .landing-page .login-option #guest, section .landing-page .login-option #google {
+section .landing-page .login-option #guest,
+section .landing-page .login-option #google {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,7 +138,8 @@ section .landing-page .login-option #guest, section .landing-page .login-option 
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
-section .landing-page .login-option #guest:hover, section .landing-page .login-option #google:hover {
+section .landing-page .login-option #guest:hover,
+section .landing-page .login-option #google:hover {
   border: 1px solid rgba(70, 70, 70, 0.4);
 }
 section .landing-page .login-option img {
@@ -128,7 +152,8 @@ section .landing-page .login-option a {
 section .features-carousel {
   display: flex;
   margin-top: 2rem;
-  justify-content: center; /* Use space-between to push cards to the edges */
+  justify-content: center;
+  /* Use space-between to push cards to the edges */
   /* Add padding to create space on the edges */
 }
 section .features-carousel .invisible-card {
@@ -138,7 +163,12 @@ section .features-carousel .invisible-card {
   align-items: start;
   flex-direction: column;
   gap: 2rem;
-  margin: 0 5rem; /* Adjust margin to create space between cards */
+  margin: 0 5rem;
+  /* Adjust margin to create space between cards */
+}
+section .features-carousel .invisible-card #text-close h4 {
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
+  color: rgba(70, 70, 70, 0.4);
 }
 section .features-carousel .invisible-card a {
   color: #fff;
@@ -156,13 +186,33 @@ section .features-carousel .visible-card {
 }
 section .features-carousel .visible-card .card {
   padding: 7rem;
-  background: rgb(220, 220, 220);
   border-radius: 1.2rem;
+}
+section .features-carousel .visible-card .card:nth-child(1) {
+  background: url(../assets/cards-img/pexels-karolina-grabowska-7692474.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+section .features-carousel .visible-card .card:nth-child(2) {
+  background: url(../assets/cards-img/pexels-keira-burton-6623835.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+section .features-carousel .visible-card .card:nth-child(3) {
+  background: url(../assets/cards-img/pexels-vlada-karpovich-4050312.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+section .features-carousel .visible-card .card:nth-child(4) {
+  background: url(../assets/cards-img/pexels-yan-krukau-8613095.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 section .features-carousel .visible-card::-webkit-scrollbar {
   width: 0px;
 }
-section .middle-guest-form {
+
+.middle-guest-form {
   position: fixed;
   top: 0;
   right: 100%;
@@ -177,36 +227,95 @@ section .middle-guest-form {
   align-items: center;
   transition: all ease-in-out 0.4s;
 }
-section .middle-guest-form .form {
+.middle-guest-form .form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-section .middle-guest-form .form input {
+.middle-guest-form .form input {
   padding: 1rem 4rem 1rem 0.7rem;
   border: none;
   outline: 1px solid #ef22e5;
 }
-section .middle-guest-form .form button {
+.middle-guest-form .form button {
   padding: 1rem;
   border: none;
   background: rgb(213, 40, 213);
   color: #fff;
 }
-section .dashboard {
+
+.dashboard {
   position: fixed;
   top: 0;
   right: 100%;
   height: 100vh;
   width: 100%;
-  background: rgb(255, 255, 255);
+  color: #fff;
+  background: rgb(209, 6, 128);
   z-index: 999;
   padding: 1rem;
   font-size: 2rem;
   transition: all ease-in-out 0.4s;
 }
+.dashboard #user {
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: burlywood;
+  transition: all 1s ease-in-out;
+  border-radius: 2rem;
+  padding: 1rem;
+}
 
 @media screen and (max-width: 700px) {
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+  header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    background: #fff;
+  }
+  header nav #logo {
+    color: rgb(213, 40, 213);
+    font-size: clamp(0.8rem, 1vw, 1rem);
+  }
+  header nav #logo span {
+    color: #272727;
+  }
+  header nav ul:nth-child(2) {
+    display: none;
+  }
+  header nav ul li {
+    list-style: none;
+  }
+  header nav ul li a {
+    text-decoration: none;
+    color: rgba(70, 70, 70, 0.4);
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: clamp(0.8rem, 1vw, 1rem);
+  }
+  header nav ul li #active {
+    color: #272727;
+  }
+  header nav ul li i {
+    padding: 0.7rem 1.4rem;
+    background: #ccc;
+    border-radius: 10rem;
+  }
+  header nav ul li #get-started {
+    color: rgb(213, 40, 213);
+    border: 1px solid rgb(213, 40, 213);
+    padding: 0.4rem 1rem;
+    border-radius: 3rem;
+    font-size: clamp(0.8rem, 1vw, 1rem);
+  }
   section .features-carousel {
     flex-direction: column;
     padding-left: 3rem;
