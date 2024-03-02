@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
 import { getAuth, signInWithPopup, signOut, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
-import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js';
+import { getDatabase, ref, set, push, onValue } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -18,126 +18,142 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
 
+// DOM elements
+const dashboard = document.querySelector('.dashboard');
+const signInButton = document.getElementById('google');
+const logOutButton = document.getElementById('log-out');
+
+// Utility function to handle errors
+function handleError(message, error) {
+    console.error(`${message}:`, error);
+}
+
 // Sign in with Google
 async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
     try {
         const result = await signInWithPopup(auth, provider);
-        // This gives you a Google Access Token. You can use it to access the Google API.
         const user = result.user;
-        // Update user details in the database
         await updateUserDetails(user);
-        // Show user dashboard
         showDashboard(user);
     } catch (error) {
-        console.error('Authentication failed:', error);
-        // Handle Errors here.
+        handleError('Authentication failed', error);
     }
 }
 
 // Update user details in Firebase Realtime Database
+// Update user details in Firebase Realtime Database
 async function updateUserDetails(user) {
-    const userRef = ref(database, `users/${user.uid}`);
-    const userData = {
-        date: new Date().toISOString(),
-        fullName: user.displayName,
-        email: user.email,
-        id: user.uid,
-    };
-    try {
-        await set(userRef, userData);
-        // Optionally, save user data locally for quick access or offline use
-        localStorage.setItem('user', JSON.stringify(userData));
-    } catch (error) {
-        console.error('Failed to update user details:', error);
-    }
+  const userRef = ref(database, `users/${user.uid}`);
+  
+  try {
+      // Fetch existing titles from Firebase
+      const titlesSnapshot = await get(ref(database, `users/${user.uid}/titles`));
+      const existingTitles = titlesSnapshot.val() || [];
+
+      // Combine existing titles with the new user data
+      const userData = {
+          date: new Date().toISOString(),
+          fullName: user.displayName,
+          email: user.email,
+          id: user.uid,
+          titles: existingTitles
+      };
+
+      // Update user details
+      await set(userRef, userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+  } catch (error) {
+      handleError('Failed to update user details', error);
+  }
 }
 
-const dashboard = document.querySelector('.dashboard');
+
 // Setup user dashboard
 function setupDashboard(user) {
     dashboard.style.right = '0';
-  
     document.getElementById('user').textContent = `Sign in as ${user.displayName}`;
-  
-    const titleRef = ref(database, `users/${user.uid}/title`);
+
+    const titlesRef = ref(database, `users/${user.uid}/titles`);
     const textBox = document.getElementById('text-box');
     const saveButton = document.getElementById('save');
-  
-    onValue(titleRef, (snapshot) => {
-      const data = snapshot.val();
-      updateTitleAndTextBox(data, user.uid); // Pass the user's uid
+
+    // Listen for title changes and update the UI accordingly
+    onValue(titlesRef, (snapshot) => {
+        const titles = [];
+        snapshot.forEach((childSnapshot) => {
+            titles.push(childSnapshot.val().title);
+        });
+        updateTitleAndTextBox(titles, user.uid);
     });
-  
-    saveButton.onclick = async () => {
-      const titleText = textBox.value;
-      await set(titleRef, titleText); // Save to Firebase
-      localStorage.setItem(`title_${user.uid}`, titleText); // Save to localStorage with user identifier
-    };
+
+    saveButton.onclick = () => saveTitle(textBox.value, user.uid);
 }
 
-  
-  
-function updateTitleAndTextBox(data, uid) {
+// Save title to Firebase under a user-specific path with a unique key each time
+async function saveTitle(titleText, uid) {
+    const titlesRef = ref(database, `users/${uid}/titles`);
+    try {
+        await push(titlesRef, { title: titleText, timestamp: new Date().toISOString() });
+    } catch (error) {
+        handleError('Failed to save title', error);
+    }
+}
+
+// Update title and text box
+function updateTitleAndTextBox(titles, uid) {
     const title = document.getElementById('title');
     const textBox = document.getElementById('text-box');
-    
-    let titleText = data;
-    if (!titleText) {
-      titleText = localStorage.getItem(`title_${uid}`); // Try to get title from localStorage with user identifier
-      if (titleText) {
-        // If title is retrieved from localStorage, update Firebase with the new title
-        set(ref(database, `users/${uid}/title`), titleText);
-      }
-    }
-  
-    if (titleText) {
-      title.textContent = titleText;
-      textBox.value = titleText;
-      textBox.value = '';
+
+    if (titles && titles.length > 0) {
+        title.textContent = titles[titles.length - 1]; // Display the latest title
+        textBox.value = ''; // Clear the text box after displaying the title
     } else {
-      setDefaultValues();
+        setDefaultValues();
     }
 }
 
-  function setDefaultValues() {
+// Set default values
+function setDefaultValues() {
     const title = document.getElementById('title');
-  
     title.textContent = 'No Existing Data from Firebase';
     textBox.value = '';
-  }
-  
-  // Show the user dashboard
-  function showDashboard(user) {
+}
+
+// Show the user dashboard
+function showDashboard(user) {
     setupDashboard(user);
-  }
-  
-  // Main
-  document.addEventListener('DOMContentLoaded', () => {
-    const signInButton = document.getElementById('google');
-    signInButton.addEventListener('click', signInWithGoogle);
-  
+}
+
+// Main
+document.addEventListener('DOMContentLoaded', () => {
+    signInButton.onclick = signInWithGoogle;
+
     auth.onAuthStateChanged((user) => {
-      if (user) {
-        showDashboard(user);
-      }
+        if (user) {
+            showDashboard(user);
+        }
     });
 
-    
+    logOutButton.onclick = () => {
+        signOut(auth).catch((error) => {
+            handleError('Sign out failed', error);
+        });
+    };
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  signInButton.onclick = signInWithGoogle;
+
+  auth.onAuthStateChanged((user) => {
+      if (user) {
+          showDashboard(user);
+      } else {
+          // Hide dashboard or adjust UI accordingly
+          document.querySelector('.dashboard').style.right = '100%';
+      }
   });
 
- 
- 
-   //log-out
-   const logOut = document.querySelector('#log-out');
-   logOut.addEventListener('click', signOutUser)
-
-   function signOutUser() {
-    signOut(auth).then(() => {
-        // Sign-out successful.
-        document.querySelector('.dashboard').style.right = '100%';
-    }).catch((error) => {
-        // An error happened.
-        console.error('Sign out failed:', error);
-    });
-}
+  logOutButton.onclick = signOutUser; // Attach logout functionality
+});
